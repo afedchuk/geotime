@@ -23,6 +23,6 @@ final class IpResolver
      */
     public function resolve(): string
     {
-        return $this->fetcher->fetchIp()->ip;
+        return $this->fetcher->fetchIp()->getIp();
     }
 }
