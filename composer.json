@@ -1,0 +1,34 @@
+{
+    "name": "afedchuk/geo-time",
+    "description": "PHP package to get current server time based on external IP with PSR-20 ClockInterface support.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrii Fedchuk",
+            "email": "andriy.fedchuk@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "psr/clock": "^1.0",
+        "guzzlehttp/guzzle": "^7.8",
+        "psr/http-message": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Afedchuk\\GeoTime\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Afedchuk\\GeoTime\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10"
+    },
+
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
