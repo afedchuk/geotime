@@ -1,5 +1,5 @@
 {
-    "name": "afedchuk/geo-time",
+    "name": "afedchuk/geotime",
     "description": "PHP package to get current server time based on external IP with PSR-20 ClockInterface support.",
     "type": "library",
     "license": "MIT",

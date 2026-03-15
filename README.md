@@ -11,7 +11,7 @@ It resolves the external IP address of the server, then fetches the current time
 You can install the package using Composer:
 
 ```bash
-composer require afedchuk/geo-time
+composer require afedchuk/geotime
 ```
 
 ##  Features
