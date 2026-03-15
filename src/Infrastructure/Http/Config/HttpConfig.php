@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Afedchuk\GeoTime\Infrastructure\Http\Config;
 
 /**
- * Class HttpConfig
- *
  * Default immutable implementation of HttpConfigInterface.
+ *
  * Stores configuration required to perform an HTTP request.
+ * This includes host, endpoint path, headers, query parameters, and timeout.
  */
 final class HttpConfig implements HttpConfigInterface
 {
     /**
-     * @param array<string,string> $headers
-     * @param array<string,string> $parameters
+     * @param string $host API host, e.g., "https://api.ipify.org"
+     * @param string $path Endpoint path, e.g., "/"
+     * @param array<string,string> $headers HTTP headers, e.g., ['Accept' => 'application/json']
+     * @param array<string,string> $parameters Query parameters for GET request, e.g., ['format' => 'json']
+     * @param float $timeout Request timeout in seconds (default 5.0)
      */
     public function __construct(
         private readonly string $host,
@@ -44,6 +47,8 @@ final class HttpConfig implements HttpConfigInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @return array<string,string>
      */
     #[\Override]
     public function getHeaders(): array
@@ -53,6 +58,8 @@ final class HttpConfig implements HttpConfigInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @return array<string,string>
      */
     #[\Override]
     public function getParameters(): array

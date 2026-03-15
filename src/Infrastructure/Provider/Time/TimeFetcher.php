@@ -7,8 +7,18 @@ namespace Afedchuk\GeoTime\Infrastructure\Provider\Time;
 use Afedchuk\GeoTime\Infrastructure\Http\Config\HttpConfigInterface;
 use GuzzleHttp\Client;
 
+/**
+ * Fetches timezone information for a given IP from an external API.
+ *
+ * Encapsulates HTTP request execution and response handling.
+ */
 final class TimeFetcher implements TimeFetcherInterface
 {
+    /**
+     * Constructor.
+     *
+     * @param HttpConfigInterface $config HTTP configuration for Time API
+     */
     public function __construct(private readonly HttpConfigInterface $config)
     {
     }
@@ -16,9 +26,12 @@ final class TimeFetcher implements TimeFetcherInterface
     /**
      * Fetch timezone name for a given IP.
      *
-     * @param string $ip
-     * @return string
+     * @param string $ip IP address to resolve timezone for
+     * @return string Timezone name, e.g., "Europe/Kiev"
+     *
+     * @throws \RuntimeException If API response is invalid
      */
+    #[\Pure]
     public function fetchTimezone(string $ip): string
     {
         $client = new Client([
@@ -35,6 +48,11 @@ final class TimeFetcher implements TimeFetcherInterface
         ]);
 
         $data = json_decode($response->getBody()->getContents(), true);
+
+        if (!is_array($data)) {
+            throw new \RuntimeException('Invalid API response: expected JSON object.');
+        }
+
         return $data['timeZone'] ?? 'UTC';
     }
 }

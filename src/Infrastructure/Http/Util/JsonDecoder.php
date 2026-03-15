@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace Afedchuk\GeoTime\Infrastructure\Http\Util;
 
 /**
- * Class JsonDecoder
- *
  * Responsible for decoding JSON responses.
+ *
+ * Provides a static method to decode JSON strings into associative arrays
+ * and throws RuntimeException if JSON is invalid.
  */
 final class JsonDecoder
 {
     /**
      * Decode JSON string into associative array.
      *
-     * @return array<string,mixed>
+     * @param string $json JSON string to decode
      *
-     * @throws \RuntimeException
+     * @return array<string,mixed> Decoded data as associative array
+     *
+     * @throws \RuntimeException If the JSON string is invalid
      */
+    #[\Pure]
     public static function decode(string $json): array
     {
         $data = json_decode($json, true);

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Afedchuk\GeoTime\Infrastructure\Provider\Ip\Dto;
 
 /**
- * Class IpDto
- *
  * Data Transfer Object for external IP address.
  *
- * @package Afedchuk\GeoTime\Infrastructure\Provider\Ip\Dto
+ * Encapsulates a single external IP value and provides access methods.
  */
 final class IpDto
 {
     /**
-     * @var string External IP address
+     * External IP address.
+     *
+     * @var string
      */
-    private string $ip;
+    private readonly string $ip;
 
     /**
      * IpDto constructor.
@@ -33,6 +33,7 @@ final class IpDto
      *
      * @return string
      */
+    #[\Pure]
     public function getIp(): string
     {
         return $this->ip;
@@ -43,6 +44,7 @@ final class IpDto
      *
      * @return string
      */
+    #[\Pure]
     public function __toString(): string
     {
         return $this->ip;

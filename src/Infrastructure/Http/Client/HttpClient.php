@@ -9,8 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Afedchuk\GeoTime\Infrastructure\Http\Config\HttpConfigInterface;
 
 /**
- * Class HttpClient
- *
  * Responsible for executing HTTP requests using configuration
  * provided by HttpConfigInterface.
  *
@@ -19,11 +17,9 @@ use Afedchuk\GeoTime\Infrastructure\Http\Config\HttpConfigInterface;
  */
 final class HttpClient
 {
-    private Client $client;
+    private readonly Client $client;
 
     /**
-     * HttpClient constructor.
-     *
      * @param HttpConfigInterface $config Request configuration
      */
     public function __construct(
@@ -36,6 +32,8 @@ final class HttpClient
 
     /**
      * Returns HTTP configuration used by the client.
+     *
+     * @return HttpConfigInterface
      */
     public function getConfig(): HttpConfigInterface
     {
@@ -43,9 +41,10 @@ final class HttpClient
     }
 
     /**
-     * Executes HTTP GET request.
+     * Executes HTTP GET request with headers and query parameters from config.
      *
-     * @throws \RuntimeException when request fails
+     * @return ResponseInterface HTTP response
+     * @throws \RuntimeException When request fails
      */
     public function fetchData(): ResponseInterface
     {
@@ -57,7 +56,6 @@ final class HttpClient
             $options['query'] = $parameters;
         }
 
-    
         try {
             return $this->client->request(
                 'GET',

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Afedchuk\GeoTime\Application;
@@ -10,6 +9,9 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Psr\Clock\ClockInterface;
 
+/**
+ * Returns current time in server's timezone.
+ */
 final class GeoTimeClock implements ClockInterface
 {
     public function __construct(
@@ -20,10 +22,11 @@ final class GeoTimeClock implements ClockInterface
     /**
      * Returns current time for server timezone.
      */
+    #[\Override]
     public function now(): DateTimeImmutable
     {
         $ip = $this->ipResolver->resolve();
-        $timezone = $this->timezoneResolver->resolve($ip); 
+        $timezone = $this->timezoneResolver->resolve($ip);
 
         return new DateTimeImmutable(
             'now',

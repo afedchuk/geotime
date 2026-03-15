@@ -4,27 +4,39 @@ declare(strict_types=1);
 
 namespace Afedchuk\GeoTime\Infrastructure\Http\Fetcher;
 
-use Afedchuk\GeoTime\Infrastructure\Http\Client\HttpClient;
+use Afedchuk\GeoTime\Infrastructure\Http\Client\ClientInterface;
 use Afedchuk\GeoTime\Infrastructure\Http\Util\JsonDecoder;
 
 /**
- * Class AbstractFetcher
- *
  * Base class for API fetchers.
+ *
  * Provides common functionality for executing HTTP requests
  * and decoding JSON responses.
  */
 abstract class AbstractFetcher
 {
-    public function __construct(
-        protected readonly HttpClient $client
-    ) {}
+    /**
+     * HTTP client used to perform requests.
+     */
+    protected readonly ClientInterface $client;
 
     /**
-     * Execute request and return decoded response.
+     * AbstractFetcher constructor.
      *
-     * @return array<string,mixed>
+     * @param ClientInterface $client HTTP client instance
      */
+    public function __construct(ClientInterface $client)
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * Execute request and return decoded JSON response as associative array.
+     *
+     * @return array<string,mixed> Decoded JSON response
+     * @throws \RuntimeException if JSON decoding fails
+     */
+    #[\Pure]
     protected function fetch(): array
     {
         $response = $this->client->fetch();

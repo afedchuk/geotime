@@ -5,44 +5,59 @@ declare(strict_types=1);
 namespace Afedchuk\GeoTime\Infrastructure\Http\Config;
 
 /**
- * Interface HttpConfigInterface
- *
  * Represents configuration required to perform an HTTP request.
- * Implementations should be immutable and provide request details
- * such as host, path, headers, query parameters and timeout.
+ *
+ * Implementations should be immutable and provide request details such as:
+ * - Host (base URL)
+ * - Endpoint path
+ * - HTTP headers
+ * - Query parameters
+ * - Request timeout
  */
 interface HttpConfigInterface
 {
     /**
      * Returns API host.
      *
-     * Example: https://timeapi.io
+     * Example: "https://timeapi.io"
+     *
+     * @return string Base URL of the API
      */
     public function getHost(): string;
 
     /**
      * Returns endpoint path.
      *
-     * Example: /api/Time/current/ip
+     * Example: "/api/Time/current/ip"
+     *
+     * @return string Endpoint path relative to host
      */
     public function getPath(): string;
 
     /**
-     * Returns HTTP headers used in the request.
+     * Returns HTTP headers to be sent in the request.
      *
-     * @return array<string,string>
+     * Example: ['Accept' => 'application/json']
+     *
+     * @return array<string,string> Key-value array of headers
      */
     public function getHeaders(): array;
 
     /**
      * Returns query parameters for the request.
      *
-     * @return array<string,string>
+     * Example: ['format' => 'json', 'ipAddress' => '1.2.3.4']
+     *
+     * @return array<string,string> Key-value array of query parameters
      */
     public function getParameters(): array;
 
     /**
      * Returns request timeout in seconds.
+     *
+     * Example: 5.0
+     *
+     * @return float Timeout in seconds
      */
     public function getTimeout(): float;
 }
