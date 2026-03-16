@@ -29,6 +29,11 @@ composer require afedchuk/geotime
 use Afedchuk\GeoTime\Builder\GeoTimeBuilder;
 $geoClock = GeoTimeBuilder::create()->build();
 
+// Or with a static IP
+$geoClock = GeoTimeBuilder::create()
+    ->withIp('8.8.8.8')
+    ->build();
+
 $currentTime = $geoClock->now();
 
 echo "Current server time: " . $currentTime->format('Y-m-d H:i:s') . "\n";

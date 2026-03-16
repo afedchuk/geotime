@@ -11,6 +11,7 @@ use Afedchuk\GeoTime\Infrastructure\Http\Client\HttpClient;
 use Afedchuk\GeoTime\Infrastructure\Http\Config\HttpConfigInterface;
 use Afedchuk\GeoTime\Infrastructure\Provider\Ip\IpFetcher;
 use Afedchuk\GeoTime\Infrastructure\Provider\Time\TimeFetcher;
+use Afedchuk\GeoTime\Infrastructure\Provider\Ip\StaticIpFetcher;
 
 /**
  * Builder for constructing GeoTimeClock instances.
@@ -19,6 +20,7 @@ final class GeoTimeBuilder
 {
     private ?HttpConfigInterface $ipConfig = null;
     private ?HttpConfigInterface $timeConfig = null;
+    private ?string $customIp = null;
 
     /**
      * Create builder instance.
@@ -26,6 +28,16 @@ final class GeoTimeBuilder
     public static function create(): self
     {
         return new self();
+    }
+
+     /**
+     * Override configuration used to resolve static IP.
+     */
+    public function withIp(string $ip): self
+    {
+        $this->customIp = $ip;
+
+        return $this;
     }
 
     /**
@@ -36,6 +48,7 @@ final class GeoTimeBuilder
         $this->ipConfig = $config;
         return $this;
     }
+    
 
     /**
      * Override configuration used to resolve timezone by IP.
@@ -51,18 +64,20 @@ final class GeoTimeBuilder
      */
     public function build(): GeoTimeClock
     {
-        $ipConfig = $this->ipConfig ?? ConfigFactory::defaultIpConfig();
-        $timeConfig = $this->timeConfig ?? ConfigFactory::defaultTimeConfig();
+        $ipFetcher = $this->customIp
+        ? new StaticIpFetcher($this->customIp)
+        : new IpFetcher($this->ipConfig ?? ConfigFactory::defaultIpConfig());
 
-        $ipClient = new HttpClient($ipConfig);
-        $timeClient = new HttpClient($timeConfig);
-
-        $ipFetcher = new IpFetcher($ipConfig);
-        $timeFetcher = new TimeFetcher($timeConfig);
+        $timeFetcher = new TimeFetcher(
+            $this->timeConfig ?? ConfigFactory::defaultTimeConfig()
+        );
 
         $ipResolver = new IpResolver($ipFetcher);
         $timezoneResolver = new TimezoneResolver($timeFetcher);
 
-        return new GeoTimeClock($ipResolver, $timezoneResolver);
+        return new GeoTimeClock(
+            $ipResolver,
+            $timezoneResolver
+        );
     }
 }
